@@ -1,10 +1,17 @@
-import { appConfig, generatedLocales } from "@/lib/appConfig";
+import { baseOptions } from '@/app/[locale]/layout.config';
+import NProgressBar from '@/app/[locale]/nProgressBar';
+import { Footer } from '@/components/footer';
+import { FumaBannerSuit } from '@/components/fuma-banner-suit';
+import GoToTop from '@/components/go-to-top';
+import { appConfig, generatedLocales, showBanner } from "@/lib/appConfig";
+import { cn } from '@/lib/fuma-search-util';
+import { HomeLayout, type HomeLayoutProps } from 'fumadocs-ui/layouts/home';
+import { RootProvider } from "fumadocs-ui/provider";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import './globals.css';
-import NProgressBar from '@/app/[locale]/nProgressBar';
-import { cn } from '@/lib/fuma-search-util';
-import { RootProvider } from "fumadocs-ui/provider";
+
+
 export const dynamic = 'force-dynamic'
 
 // 网站元数据
@@ -37,6 +44,15 @@ export async function generateMetadata({
   }
 }
 
+async function homeOptions(locale: string): Promise<HomeLayoutProps> {
+  return {
+    ...(await baseOptions(locale)),
+    links: [
+      
+    ]
+  };
+}
+
 export default async function RootLayout({
   children,
   params: paramsPromise  // 重命名参数
@@ -47,6 +63,7 @@ export default async function RootLayout({
   const { locale } = await paramsPromise;  // 使用新名称
   setRequestLocale(locale);
   const messages = await getMessages();
+  const customeOptions = await homeOptions(locale);
   return (
     <html lang={locale} suppressHydrationWarning>
       <NextIntlClientProvider messages={messages}>
@@ -61,7 +78,23 @@ export default async function RootLayout({
               translations: { cn }[locale],
             }}
           >
-            {children}
+            <HomeLayout
+              {...customeOptions}
+              searchToggle={{
+                enabled: false,
+              }}
+              themeSwitch={{
+                enabled: true,
+                mode: 'light-dark-system',
+              }}
+              className={`dark:bg-neutral-950 dark:[--color-fd-background:var(--color-neutral-950)] pt-25 ${showBanner ? 'has-banner' : 'no-banner'}`}
+              >
+              <FumaBannerSuit showText={showBanner}/>
+              {children}
+              <Footer />
+              <GoToTop />
+            </HomeLayout>
+
           </RootProvider>
         </body>
         {/* <GoogleAnalyticsScript /> */}
