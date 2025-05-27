@@ -72,7 +72,7 @@ async function getAllBlogArticles(): Promise<ProcessedArticle[]> {
             title: fm.title,
             description: fm.description,
             frontmatterIcon: fm.icon,
-            href: `./blog/${slug}`, // Reverted to ./blog/slug format as per original requirement
+            href: `./${slug}`, // Reverted to ./blog/slug format as per original requirement
             date: fm.date,
           });
         } catch (readError) {

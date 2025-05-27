@@ -9,7 +9,7 @@ interface TocFooterProps {
   lastModified: Date | undefined;
   /**
    * The path to the file for the \"Edit on GitHub\" link.
-   * This should be the relative path from the repository root, e.g., 'src/mdx/docs/your-page.mdx'.
+   * This should be the relative path from the repository root, e.g., 'src/mdx/XX/your-page.mdx'.
    */
   editPath?: string;
 }

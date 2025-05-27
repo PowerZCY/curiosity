@@ -18,7 +18,7 @@ function getIconElement(icon: string | undefined, defaultIconKey: keyof typeof i
 
 export const blogSource = loader({
   i18n,
-  baseUrl: '/blog',
+  baseUrl: '/',
   source: blog.toFumadocsSource(),
   icon: getIconElement,
 });

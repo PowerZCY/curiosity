@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
     const relativeMdxFilePath = page.data._file.path; // e.g., "introduction/(mdx)/test.mdx"
 
     // Construct absolute path for runtime file reading in Vercel (/var/task is process.cwd())
-    // Assumes that the 'src/mdx/docs' structure is preserved relative to process.cwd()
-    const absoluteFilePath = nodePath.join(process.cwd(), 'src', 'mdx', 'docs', relativeMdxFilePath);
+    // Assumes that the 'src/mdx/blog' structure is preserved relative to process.cwd()
+    const absoluteFilePath = nodePath.join(process.cwd(), 'src', 'mdx', 'blog', relativeMdxFilePath);
     console.log(`Attempting to read MDX content from: ${absoluteFilePath}`);
 
     let mdxContent: string;
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
             console.log(`src/mdx dir contents: ${fs.readdirSync(srcMdxPath).join(', ')}`);
             const srcMdxDocsPath = nodePath.join(process.cwd(), 'src', 'mdx', 'docs');
             if (fs.existsSync(srcMdxDocsPath)) {
-                console.log(`src/mdx/docs dir contents: ${fs.readdirSync(srcMdxDocsPath).join(', ')}`);
+                console.log(`src/mdx/blog dir contents: ${fs.readdirSync(srcMdxDocsPath).join(', ')}`);
             }
           }
         }
