@@ -3,16 +3,14 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { getLLMText } from '@/lib/get-llm-text';
 import { blogSource } from '@/lib/source';
-import { appConfig } from '@/lib/appConfig';
 import fs from 'node:fs'; // For reading file content
 import nodePath from 'node:path'; // Renamed to avoid conflict with 'path' searchParam
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const locale = searchParams.get('locale') ?? appConfig.i18n.defaultLocale;
   const requestedPath = searchParams.get('path'); // Use 'requestedPath' to avoid conflict with 'nodePath' module
 
-  console.log(`API Route llm-content: Received locale=${locale}, path=${requestedPath}`);
+  console.log(`API Route llm-content: Received path=${requestedPath}`);
 
   if (!requestedPath) {
     return new NextResponse('Missing path query parameter', { status: 400 });
@@ -21,15 +19,15 @@ export async function GET(request: NextRequest) {
 
   try {
     console.log('Attempting to call docsSource.getPage()');
-    const page = blogSource.getPage(slug, locale);
+    const page = blogSource.getPage(slug);
     console.log('Call to docsSource.getPage() completed.');
 
     if (!page || !page.data) {
-      console.error(`Page or page.data not found for locale=${locale}, path=${requestedPath}`);
+      console.error(`Page or page.data not found for path=${requestedPath}`);
       return new NextResponse('Page data not found', { status: 404 });
     }
     if (!page.data._file || !page.data._file.path) {
-      console.error(`_file path information missing in page.data for locale=${locale}, path=${requestedPath}`);
+      console.error(`_file path information missing in page.data for path=${requestedPath}`);
       return new NextResponse('Page file path information missing', { status: 500 });
     }
 
@@ -75,7 +73,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(text, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 
   } catch (error: any) {
-    console.error(`API Route llm-content: General error for locale=${locale}, path=${requestedPath}:`, error);
+    console.error(`API Route llm-content: General error for path=${requestedPath}:`, error);
     console.error("General Error object details:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
     return new NextResponse('Internal Server Error', { status: 500 });
   }

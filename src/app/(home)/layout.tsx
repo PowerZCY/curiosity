@@ -3,15 +3,12 @@ import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { ReactNode } from 'react';
 
 export default async function Layout({
-  params,
   children,
 }: {
-  params: Promise<{ locale: string }>;
   children: ReactNode;
 }) {
-  const { locale } = await params;
   return (
-    <DocsLayout sidebar={{enabled: false}} tree={blogSource.pageTree[locale]}>
+    <DocsLayout sidebar={{enabled: false}} tree={blogSource.pageTree}>
       {children}
     </DocsLayout>
   );

@@ -16,8 +16,7 @@
 @import 'katex/dist/katex.min.css';
 @import 'nprogress/nprogress.css';
 
-@import '../../styles/fuma.css';
-@import '../../styles/cta.css';
+@import '../styles/fuma.css';
 
 /* 
  * 强制NProgress进度条颜色为紫色

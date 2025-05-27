@@ -1,18 +1,16 @@
 import { SiteIcon } from '@/components/global-icon';
 import { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { getTranslations } from 'next-intl/server';
 
-export async function baseOptions(locale: string): Promise<BaseLayoutProps> {
-  const t = await getTranslations({ locale: locale, namespace: 'home' });
+export async function baseOptions(): Promise<BaseLayoutProps> {
   return {
     // 导航Header配置
     nav: {
-      url: `/${locale}`,
+      url: `/`,
       title: (
         <>
           <SiteIcon />
           <span className="font-medium [.uwu_&]:hidden [header_&]:text-[15px]">
-            {t('title')}
+          Re8ger
           </span>
         </>
       ),

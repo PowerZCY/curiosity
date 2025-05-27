@@ -1,6 +1,5 @@
 import { blog, legal } from '.source';
 import { globalLucideIcons as icons } from '@/components/global-icon';
-import { i18n } from '@/i18n';
 import { loader } from 'fumadocs-core/source';
 import { createElement } from 'react';
 
@@ -17,14 +16,12 @@ function getIconElement(icon: string | undefined, defaultIconKey: keyof typeof i
 }
 
 export const blogSource = loader({
-  i18n,
   baseUrl: '/',
   source: blog.toFumadocsSource(),
   icon: getIconElement,
 });
 
 export const legalSource = loader({
-  i18n,
   baseUrl: '/legal',
   source: legal.toFumadocsSource(),
   icon: getIconElement,

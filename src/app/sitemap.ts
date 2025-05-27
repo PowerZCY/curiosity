@@ -6,16 +6,15 @@ export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = appConfig.baseUrl
-  const locales = appConfig.i18n.locales
 
-  const routes = [
+  const routes : MetadataRoute.Sitemap = [
     // 主页面（各语言版本）
-    ...locales.map(locale => ({
-      url: `${baseUrl}/${locale}`,
+    {
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 1.0
-    }))
+      changeFrequency: 'weekly',
+      priority: 1,
+    }
   ]
 
   return routes

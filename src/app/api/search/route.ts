@@ -1,14 +1,11 @@
 import { blogSource } from '@/lib/source';
-import { createI18nSearchAPI } from 'fumadocs-core/search/server';
-import { i18n } from '@/i18n';
+import { createSearchAPI } from 'fumadocs-core/search/server';
  
-export const { GET } = createI18nSearchAPI('advanced', {
-  i18n,
-  indexes: blogSource.getLanguages().flatMap(({ language, pages }) =>
+export const { GET } = createSearchAPI('advanced', {
+  indexes: blogSource.getLanguages().flatMap(({ pages }) =>
     pages
       .filter(page => typeof page.data.title === 'string' && page.data.title.length > 0)
       .map((page) => ({
-        locale: language,
         title: page.data.title as string,
         description: page.data.description,
         url: page.url,

@@ -1,8 +1,6 @@
-import createNextIntlPlugin from 'next-intl/plugin';
 import { createMDX } from 'fumadocs-mdx/next';
 import { NextConfig } from 'next';
 
-const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 const withMDX = createMDX();
 
@@ -50,4 +48,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default withNextIntl(withMDX(nextConfig));
+export default withMDX(nextConfig);
