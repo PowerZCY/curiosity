@@ -1,19 +1,9 @@
 import Link from 'fumadocs-core/link';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { globalLucideIcons as icons } from '@/components/global-icon';
 
-export function AirticalCards(props: HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      {...props}
-      className={cn('grid grid-cols-2 gap-4 @container', props.className)}
-    >
-      {props.children}
-    </div>
-  );
-}
-
-export type AirticalCardProps = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
+export type ZiaCardProps = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
   icon?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
@@ -22,7 +12,7 @@ export type AirticalCardProps = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
   external?: boolean;
 };
 
-export function AirticalCard({ icon, title, description, ...props }: AirticalCardProps) {
+export function ZiaCard({ icon, title, description, ...props }: ZiaCardProps) {
   const E = props.href ? Link : 'div';
 
   return (
@@ -35,15 +25,15 @@ export function AirticalCard({ icon, title, description, ...props }: AirticalCar
         props.className,
       )}
     >
-      {icon ? (
-        <div className="not-prose mb-2 w-fit rounded-md border bg-fd-muted p-1.5 text-fd-muted-foreground [&_svg]:size-4">
-          {icon}
-        </div>
-      ) : null}
-      <h3 className="not-prose mb-1 text-sm font-medium">{title}</h3>
+      <div className="not-prose mb-2 w-fit rounded-md border bg-fd-muted p-1.5 text-fd-muted-foreground [&_svg]:size-4">
+        {icon ? icon : <icons.CircleSmall />}
+      </div>
+      <h3 className="not-prose mb-1 text-sm font-medium line-clamp-2 min-h-[2.5rem]">{title}</h3>
       {description ? (
         <p className="!my-0 text-sm text-fd-muted-foreground">{description}</p>
-      ) : null}
+      ) : (
+        <p className="!my-0 text-sm text-fd-muted-foreground opacity-0 select-none">&nbsp;</p>
+      )}
       {props.children ? (
         <div className="text-sm text-fd-muted-foreground prose-no-margin">
           {props.children}

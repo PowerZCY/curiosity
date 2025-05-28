@@ -5,7 +5,7 @@ export const appConfig = {
   style: {
     icon: {
       // 所有图标默认颜色, 注意在SVG中fill参数填充色映射为#AC62FD
-      uniformColor: process.env.NEXT_PUBLIC_STYLE_ICON_COLOR || "purple-500"
+      uniformColor: process.env.NEXT_PUBLIC_STYLE_ICON_COLOR || "text-purple-500"
     },
     showBanner: process.env.NEXT_PUBLIC_STYLE_SHOW_BANNER === 'true',
     watermark: {
