@@ -107,7 +107,7 @@ for (const iconNameKey in limitedIconsModule) {
       
       const StyledIcon = (props: LucideProps): React.ReactElement => {
         const originalClassName = props.className || '';
-        const newClassName = `${iconColor} ${originalClassName}`.trim(); // User changed to 500
+        const newClassName = `text-${iconColor} ${originalClassName}`.trim(); // User changed to 500
         return <ComponentToRender {...props} className={newClassName} />;
       };
       StyledIcon.displayName = `Styled(${iconName})`;
@@ -136,6 +136,6 @@ export const globalLucideIcons = {
 
 // Define the site icon as a functional component
 export const SiteIcon = () => (
-  <globalLucideIcons.Zap className={`h-8 w-8 rounded-full p-1 shadow-lg ring-0.5 border border-purple-500 ring-purple-500/20 ${iconColor}`} />
+  <globalLucideIcons.Zap className={`h-8 w-8 rounded-full p-1 shadow-lg ring-0.5 border border-${iconColor} ring-${iconColor}/20 text-${iconColor}`} />
 );
 
