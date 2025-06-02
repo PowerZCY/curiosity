@@ -24,6 +24,9 @@ interface MetaJson {
 const BLOG_MDX_PATH = path.join(process.cwd(), 'src/mdx/blog');
 const INDEX_MDX_FILE = path.join(BLOG_MDX_PATH, 'index.mdx');
 const META_JSON_FILE = path.join(BLOG_MDX_PATH, 'meta.json');
+const IOC_MDX_FILE = path.join(BLOG_MDX_PATH, 'ioc.mdx');
+const BLOG_PREFIX = ''; // 文章路径前缀，便于不同工程复用，如无前缀可设为 ''
+const IOC_SLUG = 'ioc'; // ioc 索引页 slug，便于统一维护
 
 function parseFrontmatter(fileContent: string): Frontmatter {
   const frontmatter: Frontmatter = {};
@@ -72,7 +75,7 @@ async function getAllBlogArticles(): Promise<ProcessedArticle[]> {
             title: fm.title,
             description: fm.description,
             frontmatterIcon: fm.icon,
-            href: `./${slug}`, // Reverted to ./blog/slug format as per original requirement
+            href: `./blog/${slug}`, // Reverted to ./blog/slug format as per original requirement
             date: fm.date,
           });
         } catch (readError) {
@@ -100,22 +103,29 @@ async function generateBlogIndex() {
       console.warn(`WARN: Could not read or parse ${META_JSON_FILE}. No articles will be marked as featured.`);
     }
     
+    // ioc 相关处理
+    const iocSlug = IOC_SLUG;
     const featuredSlugs = meta.pages
       .map(p => p.endsWith('.mdx') ? p.slice(0, -4) : p)
-      .filter(slug => slug !== 'index' && slug !== '...');
+      .filter(slug => slug !== 'index' && slug !== '...' && slug !== iocSlug && slug !== `!${iocSlug}`);
     console.log('Featured slugs (meta-config):', featuredSlugs);
 
     const allArticles = await getAllBlogArticles();
     console.log(`Found ${allArticles.length} all articles.`);
 
-    if (allArticles.length === 0 && featuredSlugs.length === 0) {
+    // ioc 文章单独处理
+    const iocArticle = allArticles.find(a => a.slug === IOC_SLUG);
+
+    const filteredArticles = allArticles.filter(a => a.slug !== IOC_SLUG);
+
+    if (filteredArticles.length === 0 && featuredSlugs.length === 0) {
       console.warn("No articles found or featured. The generated index might be empty or minimal.");
     }
 
     const featuredArticles: ProcessedArticle[] = [];
     const pastArticles: ProcessedArticle[] = [];
 
-    allArticles.forEach(article => {
+    filteredArticles.forEach(article => {
       if (featuredSlugs.includes(article.slug)) {
         featuredArticles.push(article);
       } else {
@@ -167,7 +177,8 @@ async function generateBlogIndex() {
       // Ensure there's a space before href if iconProp is present and not empty
       const finalIconProp = iconProp ? `${iconProp} ` : '';
 
-      return `  <ZiaCard ${finalIconProp}href="${article.href}" title="${escapedTitle}">\n    ${cardContent}\n  </ZiaCard>\n`;
+      const href = BLOG_PREFIX ? `./${BLOG_PREFIX}/${article.slug}` : `./${article.slug}`;
+      return `  <ZiaCard ${finalIconProp}href="${href}" title="${escapedTitle}">\n    ${cardContent}\n  </ZiaCard>\n`;
     };
 
     if (featuredArticles.length > 0) {
@@ -182,7 +193,15 @@ async function generateBlogIndex() {
       mdxContent += `</Cards>\n`;
     }
 
-    if (featuredArticles.length === 0 && pastArticles.length === 0) {
+    // 单独添加 Monthly Summary 区块
+    if (iocArticle) {
+      mdxContent += `\n## Monthly Summary\n\n<Cards>\n`;
+      const iocHref = BLOG_PREFIX ? `./${BLOG_PREFIX}/${IOC_SLUG}` : `./${IOC_SLUG}`;
+      mdxContent += `  <ZiaCard href="${iocHref}" title="Overview">\n    ${iocArticle.date || ''}\n  </ZiaCard>\n`;
+      mdxContent += `</Cards>\n`;
+    }
+
+    if (featuredArticles.length === 0 && pastArticles.length === 0 && !iocArticle) {
       mdxContent += "No blog posts found yet. Stay tuned!\n";
     }
 
@@ -194,4 +213,63 @@ async function generateBlogIndex() {
   }
 }
 
+/**
+ * 生成博客月刊统计明细，输出到 src/mdx/blog/ioc.mdx
+ * 1. 按 date 字段提取年月分组，组内按日期倒序
+ * 2. 输出 FumaDocs <Files><Folder name="YYYY-MM"><File name="YYYY-MM-DD(Title)" /></Folder></Files> 结构
+ */
+async function generateMonthlyBlogSummary() {
+  // 读取所有文章
+  const articles = await getAllBlogArticles();
+  // 过滤掉没有 date 的文章和 slug 为 ioc 的文章
+  const articlesWithDate = articles.filter(a => a.date && a.slug !== IOC_SLUG);
+
+  // 按月分组
+  const monthMap: Record<string, {date: string, title: string}[]> = {};
+  for (const art of articlesWithDate) {
+    // 只取前7位 yyyy-mm
+    const month = art.date!.slice(0, 7);
+    if (!monthMap[month]) monthMap[month] = [];
+    monthMap[month].push({ date: art.date!, title: art.title });
+  }
+
+  // 月份倒序排列
+  const sortedMonths = Object.keys(monthMap).sort((a, b) => b.localeCompare(a));
+
+  // 每月内文章按日期倒序
+  for (const month of sortedMonths) {
+    monthMap[month].sort((a, b) => b.date.localeCompare(a.date));
+  }
+
+  // 读取 ioc.mdx 原 frontmatter
+  let frontmatter = '';
+  try {
+    const content = await fs.readFile(IOC_MDX_FILE, 'utf-8');
+    const match = content.match(/^---([\s\S]*?)---/);
+    if (match && match[0]) frontmatter = match[0];
+  } catch {}
+
+  // 生成内容
+  let mdx = frontmatter ? `${frontmatter}\n\n\n## Overview\n<Files>\n` : `\n## Overview\n<Files>\n`;
+  for (const month of sortedMonths) {
+    // Folder 名称格式 YYYY-MM(文章数量)
+    const count = monthMap[month].length;
+    const folderTitle = `${month}(${count})`;
+    // 默认展开最新月份
+    const defaultOpen = month === sortedMonths[0] ? ' defaultOpen' : '';
+    mdx += `  <Folder name="${folderTitle}"${defaultOpen}>\n`;
+    for (const art of monthMap[month]) {
+      // File name="YYYY-MM-DD(Title)"
+      const day = art.date.slice(0, 10);
+      mdx += `    <File name="${day}(${art.title})" />\n`;
+    }
+    mdx += `  </Folder>\n`;
+  }
+  mdx += '</Files>\n\n';
+
+  await fs.writeFile(IOC_MDX_FILE, mdx);
+  console.log(`Successfully generated Monthly Blog Summary: ${IOC_MDX_FILE}`);
+}
+
+generateMonthlyBlogSummary();
 generateBlogIndex();
