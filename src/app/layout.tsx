@@ -7,7 +7,13 @@ import { appConfig, showBanner } from "@/lib/appConfig";
 import { HomeLayout, type HomeLayoutProps } from 'fumadocs-ui/layouts/home';
 import { RootProvider } from "fumadocs-ui/provider";
 import './globals.css';
+import { Montserrat } from "next/font/google";
 
+export const montserrat = Montserrat({
+  weight: ['400'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const dynamic = 'force-dynamic'
 
