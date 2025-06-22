@@ -8,7 +8,6 @@ import {
 import { getMDXComponents } from '@/components/mdx-components';
 import { TocFooter } from '@/components/toc';
 import { NotFoundPage } from '@/components/404-page';
-import { appConfig } from '@/lib/appConfig';
 
 export default async function Page({
   params,
@@ -22,8 +21,7 @@ export default async function Page({
     return <NotFoundPage />;
   }
 
-  const path = `${appConfig.mdxSourceDir.blog}/${page.file.path}`;
-  const tocFooterElement = <TocFooter lastModified={page.data.lastModified} editPath={path} />;
+  const tocFooterElement = <TocFooter lastModified={page.data.date} showCopy={true}/>;
  
  
   // Markdown content requires await if you config 'async: true' in source.config.ts
@@ -39,7 +37,6 @@ export default async function Page({
       article={{
         className: 'max-sm:pb-16',
       }}
-      // lastUpdate={page.data.lastModified}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-2">{page.data.description}</DocsDescription>

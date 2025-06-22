@@ -90,6 +90,7 @@ export const legal = defineDocs({
       title: createTitleSchema(),
       description: createDescriptionSchema(),
       icon: createIconSchema(),
+      date: createDateSchema(),
       preview: z.string().optional(),
       index: z.boolean().default(false),
       keywords: z.array(z.string()).optional(),
