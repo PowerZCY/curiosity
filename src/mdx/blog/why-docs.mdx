@@ -9,8 +9,26 @@ date: 2025-05-26
   所有需要的语法和工具, 都在这儿
 </Callout>
 
+## 按钮
+<GradientButton
+  title="左对齐按钮"
+  href="https://preview.reve.art/"
+  align="left"
+/>
 
-# Overview
+<GradientButton
+  title="居中对齐按钮"
+  href="https://preview.reve.art/"
+  align="center"
+/>
+<GradientButton
+  title="右对齐按钮"
+  href="https://preview.reve.art/"
+  align="right"
+/>
+
+
+## Overview
 <Callout title="使用方式" type="info">
 1. 基于效率的考量, 对于高频使用语法, 一并提供对应的触发关键词, [模板配置](./mdx-snippets)
 2. 语法示例会使用3个Tab标签
@@ -29,7 +47,7 @@ date: 2025-05-26
 | FAQ问答组    | 接口参数定义  |
 
 
-## 文档头部
+### 文档头部
 <Tabs groupId="header" items={["example", "source", "@keywords"]}>
   <Tab value="example">
     # 标题 [!toc]
@@ -49,7 +67,7 @@ date: 2025-05-26
   ```
 </Tabs>
 
-## 提示框
+### 提示框
 
 <Tabs groupId="callout" items={["example", "source", "@keywords"]}>
   <Tab value="example">
@@ -102,7 +120,7 @@ date: 2025-05-26
   ```
 </Tabs>
 
-## 文字处理
+### 文字处理
 
 <Tabs groupId="text-processing" items={["example", "source"]}>
   <Tab value="example">
@@ -148,7 +166,7 @@ date: 2025-05-26
   ```
 </Tabs>
 
-## 卡片组
+### 卡片组
 
 <Tabs groupId="card" items={["example", "source", "@keywords"]}>
   <Tab value="example">
@@ -220,7 +238,7 @@ date: 2025-05-26
 />
 
 
-## Tab标签组
+### Tab标签组
 
 ### 简单模式
 <Tabs groupId="easy-tabs" items={["example", "source", "@keywords"]}>
@@ -285,7 +303,7 @@ date: 2025-05-26
   ```
 </Tabs>
 
-## FAQ问答组
+### FAQ问答组
 
 <Tabs groupId="faq" items={["example", "source", "@keywords"]}>
   <Tab value="example">
@@ -330,7 +348,7 @@ date: 2025-05-26
   ```
 </Tabs>
 
-## 标题式步骤组
+### 标题式步骤组
 * [上文FAQ问答示例](#how-to-put-elephant)就是一个简单的步骤组演示, 只不过它在目录中隐藏了步骤标题
 
 <Callout title="弃用FumaDocs的Step组件" type="error">
@@ -364,7 +382,7 @@ date: 2025-05-26
 </Tabs>
 
 
-## Mermaid绘图
+### Mermaid绘图
 
 <Tabs groupId="mermaid" items={[ "example", "source", "@keywords"]}>
   <Tab value="example">
@@ -446,7 +464,7 @@ date: 2025-05-26
 </Tabs>
 
 
-## 数学公式
+### 数学公式
 
 <Tabs groupId="math" items={["example", "source", "@keywords"]}>
   <Tab value="example">
@@ -466,7 +484,7 @@ date: 2025-05-26
   ```
 </Tabs>
 
-## 文件层级
+### 文件层级
 
 <Tabs groupId="file-system" items={["example", "source", "@keywords"]}>
   <Tab value="example">
@@ -514,7 +532,7 @@ date: 2025-05-26
 </Tabs>
 
 
-## 内部文件引用
+### 内部文件引用
 
 <Tabs groupId="internal-file-reference" items={["example", "source", "@keywords"]}>
   <Tab value="example">
