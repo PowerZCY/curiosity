@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "fumadocs-mdx",
     "predev": "pnpm run lint",
-    "dev": "turbo run dev",
+    "dev": "next dev --turbopack",
     "build": "pnpm generate-blog-index && next build",
     "build:prod": "next build",
     "start": "next start",
@@ -83,7 +83,6 @@
     "remark-frontmatter": "^5.0.0",
     "tailwindcss": "^4.1.7",
     "ts-node": "^10.9.2",
-    "turbo": "^2.5.4",
     "typescript": "^5.8.3",
     "unist-util-visit": "^5.0.0"
   },
