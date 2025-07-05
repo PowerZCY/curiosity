@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { type NextRequest, NextResponse } from 'next/server';
-import { getLLMText } from '@/lib/get-llm-text';
+import { getLLMText } from '@windrun-huaiin/lib';
 import { blogSource } from '@/lib/source';
 import fs from 'node:fs'; // For reading file content
 import nodePath from 'node:path'; // Renamed to avoid conflict with 'path' searchParam

@@ -1,13 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
+import { appConfig } from "@/lib/appConfig";
+import createMiddleware from 'next-intl/middleware';
 
-export default function middleware(req: NextRequest) {
+const intlMiddleware = createMiddleware({
+  locales: appConfig.i18n.locales,
+  defaultLocale: appConfig.i18n.defaultLocale,
+  localePrefix: "always",
+  localeDetection: false
+});
+
+export function middleware(request: NextRequest) {
+  // 处理根路径到默认语言的永久重定向
+  if (request.nextUrl.pathname === '/') {
+    const defaultLocale = appConfig.i18n.defaultLocale;
+    return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url), 301);
+  }
+
   // 处理尾部斜杠的重定向
-  if (req.nextUrl.pathname.length > 1 && req.nextUrl.pathname.endsWith("/")) {
-    const newUrl = new URL(req.nextUrl.pathname.slice(0, -1), req.url);
+  if (request.nextUrl.pathname.length > 1 && request.nextUrl.pathname.endsWith('/')) {
+    const newUrl = new URL(request.nextUrl.pathname.slice(0, -1), request.url);
     return NextResponse.redirect(newUrl, 301);
   }
 
-  return NextResponse.next();
+  return intlMiddleware(request);
 }
 
 export const config = {

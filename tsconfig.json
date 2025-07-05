@@ -25,12 +25,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [ "./src/*" ],
-      // 配置Fumadocs的source, 强制使用别名路径
-      ".source/*": ["./.source/*"]
+      ".source/*": ["./.source/*"],
     }
   },
   "include": [
-    "next-env.d.ts",
+    "./next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
