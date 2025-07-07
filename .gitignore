@@ -54,6 +54,13 @@ web_modules/
 # Optional eslint cache
 .eslintcache
 
+
+# Changeset files (if using changesets for versioning)
+.changeset/
+!.changeset/config.json
+!.changeset/README.md
+
+
 # Optional stylelint cache
 .stylelintcache
 

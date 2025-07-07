@@ -37,7 +37,7 @@ export const legal = defineDocs({
 });
 
 export default defineConfig({
-  lastModifiedTime: 'git',
+  lastModifiedTime: 'none',
   mdxOptions: {
     providerImportSource: '@/components/mdx-components',
     // 禁用 remark-image 的默认行为, 图片统一使用远程URL
