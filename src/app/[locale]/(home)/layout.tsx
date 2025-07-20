@@ -1,4 +1,4 @@
-import { blogSource } from '@/lib/source';
+import { blogSource } from '@/lib/source-blog';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { ReactNode } from 'react';
 
