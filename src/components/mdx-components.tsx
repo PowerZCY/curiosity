@@ -8,8 +8,6 @@ import {
   ZiaFile,
   ZiaFolder,
 } from "@windrun-huaiin/third-ui/fuma/mdx";
-import { createGenerator as createTypeTableGenerator } from "fumadocs-typescript";
-import { AutoTypeTable } from "fumadocs-typescript/ui";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Callout } from "fumadocs-ui/components/callout";
 import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
@@ -99,7 +97,6 @@ const customUiComponents = {
   ZiaFolder,
 };
 
-const typeTableGenerator = createTypeTableGenerator();
 
 // 这里只是渲染层处理, 将HAST渲染为React组件, 即HTML代码
 export function getMDXComponents(
@@ -118,9 +115,6 @@ export function getMDXComponents(
         </CodeBlock>
       );
     },
-    AutoTypeTable: (props) => (
-      <AutoTypeTable {...props} generator={typeTableGenerator} />
-    ),
     // 全局处理图片放大
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     img: (props) => <ImageZoom {...(props as any)} />,
