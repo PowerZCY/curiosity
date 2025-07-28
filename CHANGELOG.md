@@ -1,5 +1,11 @@
 # curiosity
 
+## 7.2.0
+
+### Minor Changes
+
+- feat(update): use new UI by update base component
+
 ## 7.1.0
 
 ### Minor Changes
