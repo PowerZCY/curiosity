@@ -1,5 +1,11 @@
 # curiosity
 
+## 7.2.1
+
+### Patch Changes
+
+- feat(update): SEO use base component
+
 ## 7.2.0
 
 ### Minor Changes
