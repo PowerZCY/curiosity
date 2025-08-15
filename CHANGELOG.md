@@ -1,5 +1,11 @@
 # curiosity
 
+## 7.2.2
+
+### Patch Changes
+
+- fix(mdx): docs txt
+
 ## 7.2.1
 
 ### Patch Changes
